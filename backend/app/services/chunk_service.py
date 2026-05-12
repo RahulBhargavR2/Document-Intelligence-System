@@ -1,6 +1,10 @@
 from typing import List
 import re
 
+import nltk
+
+from nltk.tokenize import sent_tokenize
+
 
 # replace all white space, tab, newline multiple with sigle white space
 
@@ -11,28 +15,39 @@ def clean_text(text:str) -> str:
     return clean_text.strip()
 
 
-def chunk_text(text:str, source:str, chunk_size: int = 50, overlap: int = 10) -> List[str]:
+def chunk_text(text:str, source:str, chunk_size: int = 500) -> List[Dict]:
+
+    text = clean_text(text)
+    sentences = sent_tokenize(text)
+
     chunks = []
 
-    start = 0
-    text_len = len(text)
+    current_chunk = ""
+
     chunk_id = 0
-    while start < text_len:
 
-        end = start + chunk_size
+    for sentence in sentences:
 
-        chunk = text[start:end]
+        if len(current_chunk) + len(sentence) < chunk_size:
+            current_chunk += " " + sentence
+        else:
 
-        chunks.append({
-            "chunk_id":chunk_id,
-            "text":chunk,
-            "source":source
-        })
+            chunks.append({
+                "chunk_id":chunk_id,
+                "text":current_chunk.strip(),
+                "source":source
+            })
         
-        chunk_id += 1
+            chunk_id += 1
+            current_chunk = sentence
+    
 
-        # overlap is needed to that chunks wont loose its connectivity
-        start += chunk_size - overlap
+    if current_chunk:
+        chunks.append({
+            "chunk_id": chunk_id,
+            "text": current_chunk.strip(),
+            "source": source
+        })
     
     return chunks
 

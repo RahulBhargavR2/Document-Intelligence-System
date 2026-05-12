@@ -1,13 +1,32 @@
 import faiss
 import numpy as np
+import json
+import os
+
+INDEX_PATH = "storage/faiss_index.bin"
+CHUNKS_PATH = "storage/chunks.json"
 
 dimension = 384
 
 # brute force index searching
-index = faiss.IndexFlatL2(dimension)
+
 
 # store the actual chunks (retrived after search)
 chunk_store = []
+
+
+if os.path.exists(INDEX_PATH):
+    index = faiss.read_index(INDEX_PATH)
+    with open(CHUNKS_PATH,"r") as f:
+        chunk_store = json.load(f)
+else:
+    index = faiss.IndexFlatL2(dimension)
+
+
+def save_index():
+    faiss.write_index(index,INDEX_PATH)
+    with open(CHUNKS_PATH,"w") as f:
+        json.dump(chunk_store,f)
 
 # store the embedding and its respective data in array along with respective index
 # index stores the embeddings as vector0,vector1  
@@ -17,6 +36,8 @@ def add_embedding(embedding,chunk_data):
     index.add(vector)
 
     chunk_store.append(chunk_data)
+
+    save_index()
 
 
 def search_similar(query_embedding,top_k = 3):
