@@ -32,7 +32,7 @@ def search_similar(query_embedding,top_k = 3):
     result = []
 
     for i, idx in enumerate(indices[0]):
-        score = float(distances[0][i])
+        score = float(distance[0][i])
         # to make sure range wont exceed length and below zero
         if 0 <= idx < len(chunk_store) and score < 1.5:
             result.append({
