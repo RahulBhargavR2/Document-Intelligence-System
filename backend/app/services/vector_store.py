@@ -3,8 +3,10 @@ import numpy as np
 
 dimension = 384
 
+# brute force index searching
 index = faiss.IndexFlatL2(dimension)
 
+# store the actual chunks (retrived after search)
 chunk_store = []
 
 # store the embedding and its respective data in array along with respective index
@@ -23,12 +25,19 @@ def search_similar(query_embedding,top_k = 3):
     query_vector = np.array([query_embedding]).astype('float32')
     
 
+    # distance and indices of the queries shape of result (no_of_queries,top_k)
+    # if top_k is > index length negative values are given
     distance, indices = index.search(query_vector,top_k)
 
     result = []
 
-    for idx in indices[0]:
-        if 0 <= idx < len(chunk_store):
-            result.append(chunk_store[idx])
+    for i, idx in enumerate(indices[0]):
+        score = float(distances[0][i])
+        # to make sure range wont exceed length and below zero
+        if 0 <= idx < len(chunk_store) and score < 1.5:
+            result.append({
+                "score":score,
+                "chunk":chunk_store[idx]
+                })
 
     return result

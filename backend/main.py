@@ -7,6 +7,7 @@ from app.api.query import router as query_router
 app = FastAPI()
 app.include_router(upload_router)
 app.include_router(query_router)
+
 @app.get("/")
 def home():
     return {"message": "RAG system running 🚀"}
