@@ -4,6 +4,9 @@ import os
 from app.services.pdf_service import extract_text_from_pdf
 from app.services.chunk_service import chunk_text
 
+from app.services.embedding_service import generate_embedding
+from app.services.vector_store import add_embedding
+
 router = APIRouter()
 
 UPLOAD_DIR = "uploads"
@@ -30,6 +33,10 @@ async def upload(file: UploadFile = File(...)):
 
     # divide the huge text into small chunks
     chunks = chunk_text(text=extract_text,source=file.filename)
+
+    for chunk in chunks:
+        embedding = generate_embedding(chunk['text'])
+        add_embedding(embedding=embedding,chunk_data=chunk)
 
     
     # return filename,length and preview in JSON

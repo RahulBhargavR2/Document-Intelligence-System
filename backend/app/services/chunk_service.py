@@ -11,7 +11,7 @@ def clean_text(text:str) -> str:
     return clean_text.strip()
 
 
-def chunk_text(text:str, source:str, chunk_size: int = 500, overlap: int = 100) -> List[str]:
+def chunk_text(text:str, source:str, chunk_size: int = 50, overlap: int = 10) -> List[str]:
     chunks = []
 
     start = 0
@@ -28,7 +28,10 @@ def chunk_text(text:str, source:str, chunk_size: int = 500, overlap: int = 100) 
             "text":chunk,
             "source":source
         })
+        
         chunk_id += 1
+
+        # overlap is needed to that chunks wont loose its connectivity
         start += chunk_size - overlap
     
     return chunks
