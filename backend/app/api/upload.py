@@ -5,9 +5,12 @@ from app.services.pdf_service import extract_text_from_pdf
 from app.services.chunk_service import chunk_text
 
 from app.services.embedding_service import generate_embedding
-from app.services.vector_store import add_embedding
+from app.services.vector_store import add_embedding, get_all_chnuks
 
 from app.services.document_service import document_exists, register_document
+
+from app.services.bm25_service import initialize_bm25
+
 
 router = APIRouter()
 
@@ -30,8 +33,8 @@ async def upload(file: UploadFile = File(...)):
                 detail="Only PDF files are allowed"
             )
         
-        if document_exists(file.filename):
-            return {"message": "Document already uploaded"}
+        # if document_exists(file.filename):
+        #     return {"message": "Document already uploaded"}
 
         # create the file path ex: uploads/filename
         file_path = os.path.join(UPLOAD_DIR, file.filename)
@@ -47,11 +50,17 @@ async def upload(file: UploadFile = File(...)):
         # divide the huge text into small chunks
         chunks = chunk_text(text=extracted_text, source=file.filename)
 
+        
+        # Embed the chunks
         for chunk in chunks:
             embedding = generate_embedding(chunk["text"])
             add_embedding(embedding=embedding, chunk_data=chunk)
-
         
+        # bm25 for keyword search
+
+        all_chunks = get_all_chnuks()
+        initialize_bm25(chunks=all_chunks)
+
         register_document(file.filename)
 
 

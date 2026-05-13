@@ -12,7 +12,7 @@ def clean_text(text:str) -> str:
 
     cleaned = re.sub(r"\s+"," ",text)
 
-    return clean_text.strip()
+    return cleaned.strip()
 
 
 def chunk_text(text:str, source:str, chunk_size: int = 500) -> List[Dict]:
