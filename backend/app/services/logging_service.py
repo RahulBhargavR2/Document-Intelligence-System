@@ -2,11 +2,12 @@ import json
 from datetime import datetime
 
 
-def log_query(question, answer):
+def log_query(question,rewritten_query, answer):
 
     log_data = {
         "timestamp": str(datetime.now()),
         "question": question,
+        "log_rewritten_query": rewritten_query,
         "answer": answer
     }
 

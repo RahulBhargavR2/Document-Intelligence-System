@@ -46,7 +46,8 @@ def chunk_text(text:str, source:str, chunk_size: int = 500) -> List[Dict]:
         chunks.append({
             "chunk_id": chunk_id,
             "text": current_chunk.strip(),
-            "source": source
+            "source": source,
+            "chunk_length":len(current_chunk)
         })
     
     return chunks

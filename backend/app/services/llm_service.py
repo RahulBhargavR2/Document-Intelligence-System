@@ -29,7 +29,7 @@ def generate_answer(question:str,context:str):
     """
 
     response = client.chat.completions.create(
-        model="openai/gpt-oss-20b:free",
+        model=os.getenv("MODEL"),
         messages=[
             {
             "role": "user",
