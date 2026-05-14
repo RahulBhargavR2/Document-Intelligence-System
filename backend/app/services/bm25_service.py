@@ -1,8 +1,19 @@
 from rank_bm25 import BM25Okapi
-
+from app.services.vector_store import get_all_chunks
 bm25 = None
 
+
 documents = []
+
+
+def load_bm25():
+
+    chunks = get_all_chunks()
+
+    if not chunks:
+        return
+
+    initialize_bm25(chunks)
 
 
 def initialize_bm25(chunks):

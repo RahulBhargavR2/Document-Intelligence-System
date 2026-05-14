@@ -64,6 +64,6 @@ def search_similar(query_embedding,top_k = 3):
     return result
 
 
-def get_all_chnuks():
+def get_all_chunks():
     return chunk_store
 
