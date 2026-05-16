@@ -2,9 +2,10 @@ import faiss
 import numpy as np
 import json
 import os
+from app.core.config import settings
 
-INDEX_PATH = "storage/faiss_index.bin"
-CHUNKS_PATH = "storage/chunks.json"
+INDEX_PATH = settings.FAISS_INDEX_PATH
+CHUNKS_PATH = settings.CHUNKS_PATH
 
 dimension = 384
 

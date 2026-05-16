@@ -1,6 +1,9 @@
 from sentence_transformers import SentenceTransformer
+from app.core.config import settings
 
-model = SentenceTransformer("all-MiniLM-L6-v2")
+
+
+model = SentenceTransformer(settings.EMBEDDING_MODEL)
 
 
 def generate_embedding(text:str):

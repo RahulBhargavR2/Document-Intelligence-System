@@ -1,12 +1,11 @@
 from openai import OpenAI
-from dotenv import load_dotenv
 import os
+from app.core.config import settings
 
-load_dotenv()
 
 client = OpenAI(
-  base_url="https://openrouter.ai/api/v1",
-  api_key= os.getenv("API_KEY"),
+  base_url=settings.BASE_URL,
+  api_key= settings.OPENAI_API_KEY,
 )
 
 def generate_answer(question:str,context:str):
@@ -29,7 +28,7 @@ def generate_answer(question:str,context:str):
     """
 
     response = client.chat.completions.create(
-        model=os.getenv("MODEL"),
+        model=settings.LLM_MODEL,
         messages=[
             {
             "role": "user",
@@ -41,4 +40,3 @@ def generate_answer(question:str,context:str):
 
 
     return response.choices[0].message.content
-

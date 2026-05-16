@@ -1,7 +1,8 @@
 from sentence_transformers import CrossEncoder
+from app.core.config import settings
 
 reranker = CrossEncoder(
-    "cross-encoder/ms-marco-MiniLM-L-6-v2"
+    settings.RERANKER_MODEL
 )
 
 def rerank_results(query,results,top_k = 3):

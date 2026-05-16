@@ -1,7 +1,9 @@
 import os
 import json
 
-DOCS_PATH = "storage/documents.json"
+from app.core.config import settings
+
+DOCS_PATH = settings.DOCUMENTS_PATH
 
 if os.path.exists(DOCS_PATH):
     with open(DOCS_PATH,"r") as f:

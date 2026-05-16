@@ -28,7 +28,6 @@ def initialize_bm25(chunks):
 def bm25_search(query,chunks,top_k = 5):
     tokenized_query = query.split()
 
-    print(bm25)
 
     scores = bm25.get_scores(tokenized_query)
 
