@@ -30,9 +30,9 @@ export default function Home() {
   }, []);
 
   const refreshStats = useCallback(async () => {
+    
     try {
-      // const data = await fetchStats();
-      const data = {}
+      const data = await fetchStats();
       setStats(data);
       setOnline(true);
     } catch {

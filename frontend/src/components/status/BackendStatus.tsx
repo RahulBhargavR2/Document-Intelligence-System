@@ -20,10 +20,11 @@ export default function BackendStatus({ stats, online }: any) {
         </div>
       </div>
       <div className="grid grid-cols-2 gap-2 text-[11px]">
-        <Stat label="Cache" value={stats?.cache_hits ?? stats?.cache?.hits ?? "–"} />
-        <Stat label="Vectors" value={stats?.vectors ?? stats?.index_size ?? "–"} />
         <Stat label="Queries" value={stats?.queries ?? stats?.total_queries ?? "–"} />
-        <Stat label="Latency" value={stats?.avg_latency ? `${Number(stats.avg_latency).toFixed(2)}s` : "–"} />
+        <Stat label="Latency" value={stats?.average_latency  ?`${Number(stats.average_latency).toFixed(2)}s` : "-"} />
+        <Stat label="Cache Hits" value={stats?.cache_hits ?? stats?.cache?.hits ?? "–"} />
+        <Stat label="Cache Miss" value={stats?.cache_misses ?? stats?.cache?.misses ?? "–"} />
+        <Stat label="Uploads" value={stats?.total_uploads ?? "–"} />
       </div>
     </div>
   );

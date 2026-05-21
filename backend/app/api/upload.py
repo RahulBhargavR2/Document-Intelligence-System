@@ -11,6 +11,10 @@ from app.services.document_service import document_exists, register_document
 
 from app.services.bm25_service import initialize_bm25
 
+from app.core.logger import logger
+
+from app.monitoring.metrics_service import record_upload,record_error
+
 
 router = APIRouter()
 
@@ -71,6 +75,8 @@ async def upload(file: UploadFile = File(...)):
 
         avg_chunk_size = sum(chunk_lengths) / len(chunk_lengths)
 
+        logger.info("Document uploaded")
+        record_upload()
         # return filename,length and preview in JSON
         return {
             "filename": file.filename,
@@ -79,7 +85,9 @@ async def upload(file: UploadFile = File(...)):
             "avg_chunk_size": avg_chunk_size
         }
     except Exception as e:
-          raise HTTPException(
+        logger.exception("upload falied")
+        record_error()
+        raise HTTPException(
             status_code=500,
             detail=str(e)
         )

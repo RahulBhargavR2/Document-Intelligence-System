@@ -32,6 +32,6 @@ export async function queryRag(question: string, source?: string | null) {
 }
 
 export async function fetchStats() {
-  const res = await api.get("/stats");
+  const res = await api.get("/metrics");
   return res.data;
 }
