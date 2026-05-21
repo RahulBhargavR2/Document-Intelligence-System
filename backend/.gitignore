@@ -7,3 +7,5 @@ venv
 
 *.jsonl
 
+storage/
+uploads/
