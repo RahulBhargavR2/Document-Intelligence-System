@@ -102,7 +102,7 @@ export default function Home() {
                   {
                     role: "assistant",
                     content:
-                      "⚠️ Could not reach the RAG backend. Make sure the FastAPI server is running and VITE_API_BASE_URL is set.",
+                      "Could not reach the RAG backend. Make sure the FastAPI server is running and VITE_API_BASE_URL is set.",
                   },
                 ],
               }

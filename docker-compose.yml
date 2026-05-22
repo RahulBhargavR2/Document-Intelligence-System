@@ -10,7 +10,7 @@ services:
       - "8000:8000"
 
     env_file:
-      - ./backend/.env
+      - ./backend/.env.development
 
     volumes:
       - ./backend/storage:/backend/storage
@@ -25,7 +25,11 @@ services:
       retries: 3
 
   frontend:
-    build: ./frontend
+    build:
+      context: ./frontend
+      args:
+        VITE_API_BASE_URL: http://localhost:8000
+      
     container_name: rag-frontend
 
     ports:
@@ -33,6 +37,3 @@ services:
 
     depends_on:
       - backend
-
-    environment:
-      - VITE_API_BASE_URL=http://localhost:8000

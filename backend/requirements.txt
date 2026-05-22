@@ -10,3 +10,4 @@ python-dotenv
 pydantic-settings
 rank-bm25
 nltk
+gunicorn

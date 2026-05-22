@@ -1,11 +1,9 @@
 from pydantic_settings import BaseSettings, SettingsConfigDict
+import os
 
+ENVIRONMENT = os.getenv("ENVIRONMENT", "development")
 
-from pydantic_settings import (
-    BaseSettings,
-    SettingsConfigDict
-)
-
+env_file = ".env.production" if ENVIRONMENT == "production" else ".env.development"
 
 class Settings(BaseSettings):
 
@@ -40,9 +38,11 @@ class Settings(BaseSettings):
     TOP_K_RETRIEVAL: int = 5
 
     model_config = SettingsConfigDict(
-        env_file=".env",
+        env_file=env_file,
         extra="ignore"
     )
+
+    DEBUG : bool = False
 
 
 settings = Settings()
